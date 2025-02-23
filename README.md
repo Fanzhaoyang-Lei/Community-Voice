@@ -24,6 +24,7 @@ Functionality:
 Stores the last selected color.
 Ensures that users joining later see the most recent color instead of the default.
 Can be expanded to save user-specific color preferences.
+
 📡 Communication Flow
 1️⃣ User clicks the button in React (client)
    ⬇️

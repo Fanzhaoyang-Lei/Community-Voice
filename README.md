@@ -1,4 +1,5 @@
  🌍Project Architecture (MERN Stack)
+ 
 🖥️ Frontend (React)
 Directory: /client
 Tech: React.js, Socket.io-client, React Scripts

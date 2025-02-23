@@ -1,0 +1,33 @@
+import React, { useEffect, useState } from "react";
+import { io } from "socket.io-client";
+
+const socket = io("http://localhost:5001"); // 确保和后端端口一致
+
+function App() {
+  const [color, setColor] = useState("white");
+
+  useEffect(() => {
+    socket.on("changeColor", (newColor) => {
+      setColor(newColor);
+    });
+
+    return () => {
+      socket.off("changeColor");
+    };
+  }, []);
+
+  const changeColor = () => {
+    const newColor = color === "white" ? "green" : "white";
+    socket.emit("changeColor", newColor);
+  };
+
+  return (
+    <div style={{ height: "100vh", backgroundColor: color, display: "flex", justifyContent: "center", alignItems: "center" }}>
+      <button onClick={changeColor} style={{ padding: "10px 20px", fontSize: "20px" }}>
+        change color
+      </button>
+    </div>
+  );
+}
+
+export default App;

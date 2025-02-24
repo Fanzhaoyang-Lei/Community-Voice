@@ -27,13 +27,21 @@ Can be expanded to save user-specific color preferences.
 
 📡 Communication Flow
 1️⃣ User clicks the button in React (client)
-\\  ⬇️
+ 
+  ⬇️
+
 2️⃣ React emits a "changeColor" event via `socket.io`
+  
    ⬇️
+
 3️⃣ Express.js (server) listens for the event and updates the database
+  
    ⬇️
+
 4️⃣ Server broadcasts the updated color to all connected clients
+  
    ⬇️
+
 5️⃣ React (clients) receive the new color and update the UI
 
 🛠️ Deployment Options

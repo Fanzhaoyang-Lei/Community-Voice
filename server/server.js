@@ -22,6 +22,11 @@ const io = new Server(server, {
   cors: { origin: "*" } // 允许跨域请求
 });
 
+// 添加 GET / 端点
+app.get("/", (req, res) => {
+  res.send("Server is running! 🚀");
+});
+
 io.on("connection", async (socket) => {
   console.log("✅ 新用户连接");
 

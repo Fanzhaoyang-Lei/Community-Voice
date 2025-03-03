@@ -2,17 +2,17 @@ const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");  // 🔹 暂时注释掉 MongoDB 相关代码
 
-// 连接 MongoDB
-mongoose.connect("mongodb://localhost:27017/colorsDB", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+// 🔹 连接 MongoDB（暂时注释掉，如果以后需要恢复，取消注释即可）
+// mongoose.connect("mongodb://localhost:27017/colorsDB", {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// });
 
-// 创建数据库 Schema 和 Model
-const colorSchema = new mongoose.Schema({ color: String });
-const Color = mongoose.model("Color", colorSchema);
+// 🔹 创建数据库 Schema 和 Model（暂时不使用数据库存储颜色）
+// const colorSchema = new mongoose.Schema({ color: String });
+// const Color = mongoose.model("Color", colorSchema);
 
 const app = express();
 app.use(cors());
@@ -23,27 +23,27 @@ const io = new Server(server, {
 });
 
 io.on("connection", async (socket) => {
-  console.log("新用户连接");
+  console.log("✅ 新用户连接");
 
-  // 获取数据库中的颜色数据，并发送给新用户
-  const lastColor = await Color.findOne();
-  if (lastColor) {
-    socket.emit("changeColor", lastColor.color);
-  }
+  // 🔹 获取数据库中的颜色数据，并发送给新用户（暂时不使用数据库，改为默认颜色）
+  const defaultColor = "#3498db";  // 🚀 你可以换成其他默认颜色
+  socket.emit("changeColor", defaultColor);
 
   socket.on("changeColor", async (color) => {
-    console.log("收到用户更改颜色:", color);
+    console.log("🎨 收到用户更改颜色:", color);
     io.emit("changeColor", color); // 广播颜色更新给所有用户
 
-    // 存储最新的颜色数据（更新或插入）
-    await Color.findOneAndUpdate({}, { color }, { upsert: true });
+    // 🔹 存储最新的颜色数据（暂时不存入数据库）
+    // await Color.findOneAndUpdate({}, { color }, { upsert: true });
   });
 
   socket.on("disconnect", () => {
-    console.log("用户断开连接");
+    console.log("❌ 用户断开连接");
   });
 });
 
-server.listen(5001, () => {
-  console.log(`服务器运行在 http://${process.env.HOST || '0.0.0.0'}:5001`);
+// 监听端口 5001 并绑定 0.0.0.0 允许外部访问
+const PORT = 5001;
+server.listen(PORT, "0.0.0.0", () => {
+  console.log(`🚀 服务器运行在 http://0.0.0.0:${PORT}`);
 });

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:5001"); // 确保和后端端口一致
+const socket = io("http://100.24.4.55:5001"); // 连接到 AWS EC2
 
 function App() {
   const [color, setColor] = useState("white");

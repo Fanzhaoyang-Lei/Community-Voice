@@ -21,11 +21,24 @@ function App() {
     socket.emit("changeColor", newColor);
   };
 
+  //显示当前连接人数
+  const [userCount, setUserCount] = useState(0);
+  useEffect(() => {
+    socket.on("userCount", setUserCount);
+    return () => socket.off("userCount");
+  }, []);
+
+
+
+  
   return (
     <div style={{ height: "100vh", backgroundColor: color, display: "flex", justifyContent: "center", alignItems: "center" }}>
       <button onClick={changeColor} style={{ padding: "10px 20px", fontSize: "20px" }}>
         change color
       </button>
+      <p style={{ position: "absolute", top: 10, right: 10 }}>
+        Current users: {userCount}
+      </p>
     </div>
   );
 }

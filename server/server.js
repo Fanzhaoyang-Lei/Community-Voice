@@ -34,6 +34,10 @@ io.on("connection", async (socket) => {
   const defaultColor = "#3498db";  // 🚀 你可以换成其他默认颜色
   socket.emit("changeColor", defaultColor);
 
+  // 广播当前连接人数
+  io.emit("userCount", io.engine.clientsCount);
+
+  // 监听颜色更改
   socket.on("changeColor", async (color) => {
     console.log("🎨 收到用户更改颜色:", color);
     io.emit("changeColor", color); // 广播颜色更新给所有用户
@@ -41,6 +45,8 @@ io.on("connection", async (socket) => {
     // 🔹 存储最新的颜色数据（暂时不存入数据库）
     // await Color.findOneAndUpdate({}, { color }, { upsert: true });
   });
+
+  
 
   socket.on("disconnect", () => {
     console.log("❌ 用户断开连接");
